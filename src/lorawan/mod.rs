@@ -1,18 +1,18 @@
 use atat::atat_derive::AtatCmd;
+use atat::serde_at::HexStr;
 use heapless::String;
 
 ///! ### LoRaWAN commands and configuration
 pub mod responses;
 pub mod types;
 
+use crate::NoResponse;
 use responses::*;
 use types::{
-    JoinMode as JoinModeVal,
     DownloadUploadSameOrDifferentFrequency as DownloadUploadSameOrDifferentFrequencyVal,
-    LoRaWanClass as LoRaWanClassVal,
-    LoRaWanOtaaJoinParameters as LoRaWanOtaaJoinParametersVal
+    JoinMode as JoinModeVal, LoRaWanClass as LoRaWanClassVal,
+    LoRaWanOtaaJoinParameters as LoRaWanOtaaJoinParametersVal,
 };
-use crate::NoResponse;
 
 // Document version 0.1.0 13
 // 4.1.2 LoRaWAN Network Related Parameter Setup Command Sets
@@ -28,9 +28,8 @@ pub struct JoinModeGet;
 #[at_cmd("+CJOINMODE", NoResponse)]
 pub struct JoinModeSet {
     #[at_arg(position = 0)]
-    pub join_mode: JoinModeVal
+    pub join_mode: JoinModeVal,
 }
-
 
 /// 4.2.7 Get DevEUI - only applicable for OTAA
 #[derive(Clone, AtatCmd)]
@@ -42,9 +41,8 @@ pub struct DevEuiGet;
 #[at_cmd("+CDEVEUI", NoResponse)]
 pub struct DevEuiSet {
     #[at_arg(position = 0)]
-    pub dev_eui: String<32>,
+    pub dev_eui: HexStr<u64>,
 }
-
 
 /// 4.2.8 Get AppEUI - only applicable for OTAA
 #[derive(Clone, AtatCmd)]
@@ -56,9 +54,8 @@ pub struct AppEuiGet;
 #[at_cmd("+CAPPEUI", NoResponse)]
 pub struct AppEuiSet {
     #[at_arg(position = 0)]
-    pub app_eui: String<32>,
+    pub app_eui: HexStr<u64>,
 }
-
 
 /// 4.2.9 Get AppKey - only applicable for OTAA
 #[derive(Clone, AtatCmd)]
@@ -70,9 +67,8 @@ pub struct AppKeyGet;
 #[at_cmd("+CAPPKEY", NoResponse)]
 pub struct AppKeySet {
     #[at_arg(position = 0)]
-    pub app_key: String<64>,
+    pub app_key: HexStr<u128>,
 }
-
 
 /// 4.2.10 Get DevAddr - only applicable for ABP
 #[derive(Clone, AtatCmd)]
@@ -84,9 +80,8 @@ pub struct DevAddrGet;
 #[at_cmd("+CDEVADDR", NoResponse)]
 pub struct DevAddrSet {
     #[at_arg(position = 0)]
-    pub dev_addr: String<16>,
+    pub dev_addr: HexStr<u32>,
 }
-
 
 /// 4.2.11 Get App session key - only applicable for ABP
 #[derive(Clone, AtatCmd)]
@@ -98,9 +93,8 @@ pub struct AppSessionKeyGet;
 #[at_cmd("+CAPPSKEY", NoResponse)]
 pub struct AppSessionKeySet {
     #[at_arg(position = 0)]
-    pub app_session_key: String<64>,
+    pub app_session_key: HexStr<u128>,
 }
-
 
 /// 4.2.12 Get Network session key - only applicable for ABP
 #[derive(Clone, AtatCmd)]
@@ -112,9 +106,8 @@ pub struct NetworkSessionKeyGet;
 #[at_cmd("+CNWKSKEY", NoResponse)]
 pub struct NetworkSessionKeySet {
     #[at_arg(position = 0)]
-    pub network_session_key: String<64>,
+    pub network_session_key: HexStr<u128>,
 }
-
 
 /// 4.2.13 Get the frequency band mask, needs to be set before joining
 #[derive(Clone, AtatCmd)]
@@ -129,7 +122,6 @@ pub struct FrequencyBandMaskSet {
     pub mask: String<8>,
 }
 
-
 /// 4.2.14 Get the frequency band mask, needs to be set before joining
 #[derive(Clone, AtatCmd)]
 #[at_cmd("+CULDLMODE?", DownloadUploadSameOrDifferentFrequency)]
@@ -142,7 +134,6 @@ pub struct DownloadUploadSameOrDifferentFrequencySet {
     #[at_arg(position = 0)]
     pub mode: DownloadUploadSameOrDifferentFrequencyVal,
 }
-
 
 /// 4.2.36 Add one multicast address
 #[derive(Clone, AtatCmd)]
@@ -176,7 +167,6 @@ pub struct AmountOfMulticastGroupsGet {
     pub amount: u16,
 }
 
-
 /// 4.2.15 Get the work mode
 #[derive(Clone, AtatCmd)]
 #[at_cmd("+CWORKMODE?", WorkMode)]
@@ -189,7 +179,6 @@ pub struct WorkModeSet {
     #[at_arg(position = 0)]
     pub mode: u8,
 }
-
 
 /// 4.2.16 Get the LoRaWAN class type
 #[derive(Clone, AtatCmd)]
@@ -204,7 +193,6 @@ pub struct LoRaWanClassSet {
     pub class: LoRaWanClassVal,
 }
 
-
 /// 4.2.17 Get the battery level
 #[derive(Clone, AtatCmd)]
 #[at_cmd("+CBL?", BatteryLevel)]
@@ -214,7 +202,6 @@ pub struct BatteryLevelGet;
 #[derive(Clone, AtatCmd)]
 #[at_cmd("+CSTATUS?", DeviceStatus)]
 pub struct DeviceStatusGet;
-
 
 /// 4.2.19 Get the LoRaWAN OTAA join parameters
 #[derive(Clone, AtatCmd)]

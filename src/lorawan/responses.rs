@@ -1,11 +1,11 @@
-use atat::atat_derive::AtatResp;
 use crate::lorawan::types::{
-    JoinMode as JoinModeVal,
     DeviceStatus as DeviceStatusVal,
     DownloadUploadSameOrDifferentFrequency as DownloadUploadSameOrDifferentFrequencyVal,
-    LoRaWanClass as LoRaWanClassVal,
-    LoRaWanOtaaJoinParameters as LoRaWanOtaaJoinParametersVal
+    JoinMode as JoinModeVal, LoRaWanClass as LoRaWanClassVal,
+    LoRaWanOtaaJoinParameters as LoRaWanOtaaJoinParametersVal,
 };
+use atat::atat_derive::AtatResp;
+use atat::serde_at::HexStr;
 use heapless::String;
 
 /// Join Mode response
@@ -19,43 +19,42 @@ pub struct JoinMode {
 #[derive(Clone, Debug, AtatResp)]
 pub struct DevEui {
     #[at_arg(position = 0)]
-    pub dev_eui: String<32>,
+    pub dev_eui: HexStr<u64>,
 }
 
 /// Get AppEUI response
 #[derive(Clone, Debug, AtatResp)]
 pub struct AppEui {
     #[at_arg(position = 0)]
-    pub app_eui: String<32>,
+    pub app_eui: HexStr<u64>,
 }
 
 /// Get AppKey response
 #[derive(Clone, Debug, AtatResp)]
 pub struct AppKey {
     #[at_arg(position = 0)]
-    pub app_eui: String<64>,
+    pub app_eui: HexStr<u128>,
 }
-
 
 /// Get DevAddr response
 #[derive(Clone, Debug, AtatResp)]
 pub struct DevAddr {
     #[at_arg(position = 0)]
-    pub app_eui: String<16>,
+    pub app_eui: HexStr<u32>,
 }
 
 /// Get App session key response
 #[derive(Clone, Debug, AtatResp)]
 pub struct AppSessionKey {
     #[at_arg(position = 0)]
-    pub app_s_key: String<64>,
+    pub app_s_key: HexStr<u128>,
 }
 
 /// Get Network session key response
 #[derive(Clone, Debug, AtatResp)]
 pub struct NetworkSessionKey {
     #[at_arg(position = 0)]
-    pub network_session_key: String<64>,
+    pub network_session_key: HexStr<u128>,
 }
 
 /// Get frequency band mask response
@@ -90,7 +89,7 @@ pub struct WorkMode {
 #[derive(Clone, Debug, AtatResp)]
 pub struct DeviceStatus {
     #[at_arg(position = 0)]
-    pub status: DeviceStatusVal
+    pub status: DeviceStatusVal,
 }
 
 /// Get the LoRaWAN class
@@ -120,4 +119,3 @@ pub struct PingSlotFrequency {
     #[at_arg(position = 0)]
     pub periodicity: u16,
 }
-

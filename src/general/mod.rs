@@ -1,9 +1,9 @@
 ///! ###  General Commands
 pub mod responses;
 
+use crate::NoResponse;
 use atat::atat_derive::AtatCmd;
 use responses::*;
-use crate::NoResponse;
 
 /// 4.2.1 Manufacturer identification +CGMI
 #[derive(Clone, AtatCmd)]
@@ -35,8 +35,5 @@ pub struct BaudRateGet;
 #[at_cmd("+CGBR", NoResponse)]
 pub struct BaudRateSet {
     #[at_arg(position = 0)]
-    pub baud: u8
+    pub baud: u8,
 }
-
-
-

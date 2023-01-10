@@ -1,4 +1,3 @@
-
 use atat::atat_derive::{AtatEnum, AtatLen};
 use serde_derive::{Deserialize, Serialize};
 
@@ -7,7 +6,7 @@ pub enum JoinMode {
     #[at_arg(value = 0)]
     OTAA,
     #[at_arg(value = 1)]
-    ABP
+    ABP,
 }
 
 #[derive(Clone, PartialEq, Debug, AtatEnum)]
@@ -15,7 +14,7 @@ pub enum DownloadUploadSameOrDifferentFrequency {
     #[at_arg(value = 1)]
     SameFrequency,
     #[at_arg(value = 2)]
-    DifferentFrequency
+    DifferentFrequency,
 }
 
 #[derive(Clone, PartialEq, Debug, AtatEnum)]
@@ -108,5 +107,3 @@ pub struct LoRaWanOtaaJoinParameters {
     #[at_arg(position = 2)]
     pub retries: u16,
 }
-
-

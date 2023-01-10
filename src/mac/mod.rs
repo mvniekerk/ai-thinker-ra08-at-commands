@@ -13,7 +13,7 @@ use types::{
 
 /// 4.2.22 Get whether uplink messages are confirmed
 #[derive(Clone, AtatCmd)]
-#[at_cmd("+CCONFIRM", ConfirmedUplink)]
+#[at_cmd("+CCONFIRM?", ConfirmedUplink)]
 pub struct ConfirmedUplinkGet;
 
 /// 4.2.22 Set whether uplink messages are confirmed
@@ -26,7 +26,7 @@ pub struct ConfirmedUplinkSet {
 
 /// 4.2.23 Get the application port
 #[derive(Clone, AtatCmd)]
-#[at_cmd("+CAPPPORT", ApplicationPort)]
+#[at_cmd("+CAPPPORT?", ApplicationPort)]
 pub struct ApplicationPortGet;
 
 /// 4.2.23 Set the application port. Default 10. Range 1..223
@@ -39,7 +39,7 @@ pub struct ApplicationPortSet {
 
 /// 4.2.24 Get the data rate
 #[derive(Clone, AtatCmd)]
-#[at_cmd("+CDATARATE", DataRate)]
+#[at_cmd("+CDATARATE?", DataRate)]
 pub struct DataRateGet;
 
 /// 4.2.24 Set the data rate. Default 3 - SF9 BW125
@@ -54,13 +54,13 @@ pub struct DataRateSet {
 
 /// 4.2.26 Get max send times
 #[derive(Clone, AtatCmd)]
-#[at_cmd("+CDATARATE", MaxSendTimes)]
+#[at_cmd("+CNBTRIALS?", MaxSendTimes)]
 pub struct MaxSendTimesGet;
 
 /// 4.2.26 Set max send times
 /// Must be set before sending data
 #[derive(Clone, AtatCmd)]
-#[at_cmd("+CDATARATE", NoResponse)]
+#[at_cmd("+CNBTRIALS", NoResponse)]
 pub struct MaxSendTimesSet {
     #[at_arg(position = 0)]
     pub confirmed: ConfirmedUplinkVal,
@@ -72,7 +72,7 @@ pub struct MaxSendTimesSet {
 /// 4.2.27 Get the upload reporting mode
 /// Mainly used for testing purposes
 #[derive(Clone, AtatCmd)]
-#[at_cmd("+CRM", UploadReportMode)]
+#[at_cmd("+CRM?", UploadReportMode)]
 pub struct UploadReportModeGet;
 
 /// 4.2.27 Set the upload reporting mode
@@ -87,7 +87,7 @@ pub struct UploadReportModeSet {
 /// 4.2.28 Get the transmit power
 /// Default 17dBm. Needs to be set before sending data
 #[derive(Clone, AtatCmd)]
-#[at_cmd("+CTXP", TransmitPower)]
+#[at_cmd("+CTXP?", TransmitPower)]
 pub struct TransmitPowerGet;
 
 /// 4.2.28 Set the upload reporting mode
@@ -111,7 +111,7 @@ pub struct VerifyNetworkConnection {
 /// 4.2.30 Get ADR enable status
 /// Needs to be set up before sending data. ADR is enabled by default.
 #[derive(Clone, AtatCmd)]
-#[at_cmd("+CADR", VerifyNetworkConnectionResponse)]
+#[at_cmd("+CADR?", VerifyNetworkConnectionResponse)]
 pub struct AdrEnabledGet;
 
 /// 4.2.30 Set ADR enable status
@@ -126,7 +126,7 @@ pub struct AdrEnabledSet {
 /// 4.2.31 Get receive window parameters
 /// Needs to be set up before sending data. Doesn't affect default values
 #[derive(Clone, AtatCmd)]
-#[at_cmd("+CRXP", VerifyNetworkConnectionResponse)]
+#[at_cmd("+CRXP?", VerifyNetworkConnectionResponse)]
 pub struct ReceiveWindowParametersGet;
 
 /// 4.2.31 Set receive window parameters
@@ -145,7 +145,7 @@ pub struct ReceiveWindowParametersSet {
 /// 4.2.32 Get Rx1 Delay setup. How long after sending to open the RX1 window, unit in seconds.
 /// Needs to be set up before sending data.
 #[derive(Clone, AtatCmd)]
-#[at_cmd("+CRX1DELAY", Rx1Delay)]
+#[at_cmd("+CRX1DELAY?", Rx1Delay)]
 pub struct Rx1DelayGet;
 
 /// 4.2.32 Set Rx1 Delay setup. How long after sending to open the RX1 window, unit in seconds.

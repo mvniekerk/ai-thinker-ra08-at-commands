@@ -2,7 +2,7 @@ use atat::atat_derive::AtatResp;
 
 use super::types::{
     AdrEnabled as AdrEnabledVal, ConfirmedUplink as ConfirmedUplinkVal, DataRate as DataRateVal,
-    LinkCheckResult, TransmitPower as TransmitPowerVal, UploadReportMode as UploadReportModeVal,
+    TransmitPower as TransmitPowerVal, UploadReportMode as UploadReportModeVal,
 };
 
 /// Get whether uplink messages should be confirmed
@@ -54,7 +54,7 @@ pub struct TransmitPower {
 #[derive(Clone, Debug, AtatResp)]
 pub struct VerifyNetworkConnectionResponse {
     #[at_arg(position = 0)]
-    pub connection: LinkCheckResult,
+    pub result: u8,
 }
 
 /// Verify network link

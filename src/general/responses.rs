@@ -1,6 +1,7 @@
 //! Responses for General Commands
 use atat::atat_derive::AtatResp;
 use heapless::String;
+use super::types::LogLevel as LogLevelVal;
 
 /// 4.2.1 Manufacturer identification
 /// Manufacturer Identification
@@ -38,3 +39,11 @@ pub struct BaudRate {
     #[at_arg(position = 0)]
     pub baud: u8,
 }
+
+/// Log level
+#[derive(Clone, Debug, AtatResp)]
+pub struct LogLevel {
+    #[at_arg(position = 0)]
+    pub level: LogLevelVal,
+}
+

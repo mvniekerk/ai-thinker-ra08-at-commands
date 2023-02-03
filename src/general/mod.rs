@@ -1,9 +1,11 @@
 ///! ###  General Commands
 pub mod responses;
+pub mod types;
 
 use crate::NoResponse;
 use atat::atat_derive::AtatCmd;
 use responses::*;
+use types::{Reboot as RebootVal, LogLevel as LogLevelVal};
 
 /// 4.2.1 Manufacturer identification +CGMI
 #[derive(Clone, AtatCmd)]
@@ -36,4 +38,25 @@ pub struct BaudRateGet;
 pub struct BaudRateSet {
     #[at_arg(position = 0)]
     pub baud: u8,
+}
+
+/// 3.4.1 Reboot the device
+#[derive(Clone, AtatCmd)]
+#[at_cmd("+IREBOOT", NoResponse)]
+pub struct Reboot {
+    #[at_arg(position = 0)]
+    pub when: RebootVal,
+}
+
+/// 3.4.2 Get the log level
+#[derive(Clone, AtatCmd)]
+#[at_cmd("+IREBOOT?", LogLevel)]
+pub struct LogLevelGet;
+
+/// 3.4.2 Set the log level
+#[derive(Clone, AtatCmd)]
+#[at_cmd("+ILOGLVL", NoResponse)]
+pub struct LogLevelSet {
+    #[at_arg(position = 0)]
+    pub level: LogLevelVal,
 }

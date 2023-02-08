@@ -6,7 +6,7 @@ use defmt::*;
 use embassy_executor::Spawner;
 use embassy_executor::_export::StaticCell;
 use embassy_rp::interrupt;
-use embassy_rp::peripherals::UART0;
+use embassy_rp::peripherals::{UART1};
 use embassy_rp::uart::{BufferedUart, BufferedUartRx, Config};
 use embassy_time::{Duration, Timer};
 use embedded_io::asynch::{Read, Write};
@@ -24,11 +24,15 @@ macro_rules! singleton {
 #[embassy_executor::main]
 async fn main(spawner: Spawner) {
     let p = embassy_rp::init(Default::default());
-    let (tx_pin, rx_pin, uart) = (p.PIN_0, p.PIN_1, p.UART0);
+    let (tx_pin, rx_pin, uart) = (p.PIN_8, p.PIN_9, p.UART1);
 
-    let irq = interrupt::take!(UART0_IRQ);
+    let irq = interrupt::take!(UART1_IRQ);
     let tx_buf = &mut singleton!([0u8; 16])[..];
     let rx_buf = &mut singleton!([0u8; 16])[..];
+    let mut config = Config::default();
+    config.baudrate = 9600;
+    config.baudrate = 921600;
+    // config.baudrate = 115200;
     let mut uart = BufferedUart::new(uart, irq, tx_pin, rx_pin, tx_buf, rx_buf, Config::default());
     let (rx, mut tx) = uart.split();
 
@@ -36,18 +40,15 @@ async fn main(spawner: Spawner) {
 
     info!("Writing...");
     loop {
-        let data = [
-            1u8, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28,
-            29, 30, 31,
-        ];
+        let data = b"+CJOINMODE?\n";
         info!("TX {:?}", data);
-        tx.write_all(&data).await.unwrap();
+        tx.write_all(data).await.unwrap();
         Timer::after(Duration::from_secs(1)).await;
     }
 }
 
 #[embassy_executor::task]
-async fn reader(mut rx: BufferedUartRx<'static, UART0>) {
+async fn reader(mut rx: BufferedUartRx<'static, UART1>) {
     info!("Reading...");
     loop {
         let mut buf = [0; 31];
